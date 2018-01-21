@@ -35,5 +35,14 @@ public class CredentialController {
     public String greeting() {
         return "Hello";
     }
+
+    @RequestMapping(path = "/delete", method = RequestMethod.POST)
+    public @ResponseBody String deleteCredential(@RequestParam Integer id) {
+        if (credentialRepository.exists(id)) {
+            credentialRepository.delete(id);
+
+        }
+        return "redirect:/all";
+    }
 }
 
