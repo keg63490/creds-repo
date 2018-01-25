@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Add new row</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+    <form action="#" th:action="@{/add}" th:object = "${credential}" method="post">
+        <p>
+            Group: <input type = "text" th:field = "*{group}"/>
+        </p>
+        <p>
+            Account: <input type = "text" th:field = "*{account}"/>
+        </p>
+        <p>
+            Password: <input type = "text" th:field = "*{password}"/>
+        </p>
+        <p>
+            Salt: <input type = "text" th:field = "*{salt}"/>
+        </p>
+        <p>
+            Created by: <input type = "text" th:field = "*{createUser}"/>
+        </p>
+        <p>
+            Created time: <input type = "text" th:field = "*{createTimeStamp}"/>
+        </p>
+        <p>
+            <button type="submit">Submit</button>
+        </p>
+
+    </form>
+</body>
+</html>

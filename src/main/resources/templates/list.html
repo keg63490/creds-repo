@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>List of Users</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>User Group</th>
+                <th>Account</th>
+                <th>Password</th>
+                <th>Salt</th>
+                <th>Created by</th>
+                <th>Created on</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each = "credential : ${list}">
+                <td th:text  = "${credential.id}"></td>
+                <td th:text  = "${credential.group}"></td>
+                <td th:text  = "${credential.account}"></td>
+                <td th:text  = "${credential.password}"></td>
+                <td th:text  = "${credential.salt}"></td>
+                <td th:text  = "${credential.createUser}"></td>
+                <td th:text  = "${credential.createTimeStamp}"></td>
+                <td><button>Update</button></td>
+                <td>
+                    <form action="#" th:action = "@{/delete}" th.object = "${credential}" method="post">
+                        <input type="hidden" th:value = "${credential.id}" th:name = "id"  />
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div>
+        <form action="#" th:action = "@{/add}"  method="get">
+            <button>Add new entry</button>
+        </form>
+
+    </div>
+</body>
+</html>
