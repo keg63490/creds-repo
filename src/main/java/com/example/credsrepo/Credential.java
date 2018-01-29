@@ -20,26 +20,26 @@ public class Credential {
 
     @NotEmpty
     @Column(name = "user_group", nullable = false)
-    String group;
+    private String group;
 
     @NotEmpty
     @Column(name = "account", nullable = false)
-    String account;
+    private String account;
 
     @NotEmpty
     @Column(name = "password", nullable = false)
-    String password;
+    private String password;
 
     @NotEmpty
     @Column(name = "salt", nullable = false)
-    String salt;
+    private String salt;
 
     @NotEmpty
     @Column(name = "create_user", nullable = false)
-    String createUser;
+    private String createUser;
 
     @Column(name = "create_timestamp", nullable = false)
-    Integer createTimeStamp;
+    private Integer createTimeStamp;
 
     public Integer getId() {
         return id;
