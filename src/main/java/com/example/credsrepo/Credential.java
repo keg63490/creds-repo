@@ -20,7 +20,7 @@ public class Credential {
 
     @NotEmpty
     @Column(name = "user_group", nullable = false)
-    String group;
+    private String group;
 
     @NotEmpty
     @Column(name = "account", nullable = false)

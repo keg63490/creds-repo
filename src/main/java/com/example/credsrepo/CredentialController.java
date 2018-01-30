@@ -22,19 +22,6 @@ public class CredentialController {
         return "home";
     }
 
-    //@RequestMapping(path = "/addCredential", method = RequestMethod.POST)
-//    @RequestMapping(path = "/add", method = RequestMethod.POST)
-//    public @ResponseBody String addCredential(@RequestParam  String userGroup, @RequestParam String accountName, @RequestParam String password, @RequestParam String salt, @RequestParam String createUser, @RequestParam int createTimeStamp) {
-//        Credential cred = new Credential();
-//        cred.setGroup(userGroup);
-//        cred.setAccount(accountName);
-//        cred.setPassword(password);
-//        cred.setSalt(salt);
-//        cred.setCreateUser(createUser);
-//        cred.setCreateTimeStamp(createTimeStamp);
-//        credentialRepository.save(cred);
-//        return  "all";
-//    }
 
     @RequestMapping(path = "/add", method = RequestMethod.POST)
     public String addCredential(@ModelAttribute("credential") Credential credential, BindingResult bindingResult) {
