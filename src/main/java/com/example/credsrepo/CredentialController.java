@@ -18,9 +18,7 @@ public class CredentialController {
     private CredentialsRepository credentialRepository;
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
-    String index() {
-        return "home";
-    }
+    String index() { return "home"; }
 
 
     @RequestMapping(path = "/add", method = RequestMethod.POST)
