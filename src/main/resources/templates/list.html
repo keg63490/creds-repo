@@ -26,6 +26,17 @@
 
             document.execCommand("copy");
         }
+
+        function showPassword(pwRowNum) {
+            var pwID = "pw" + pwRowNum;
+            var elementPW = document.getElementById(pwID);
+            elementPW.setAttribute("type", "text");
+            window.setTimeout(function () {alert("Waiting")},30000)
+        }
+
+
+
+
     </script>
 </head>
 <body>
@@ -61,6 +72,12 @@
                     <form>
                         <input type="hidden" th:value = "${iterList.index}" th:name = "id"  />
                         <button type="submit" th:id = "|button${iterList.index}|" onClick="findPassword(this)">Get This Password</button>
+                    </form>
+                </td>
+                <td>
+                    <form>
+                        <input type="hidden" th:value = "${iterList.index}" th:name = "id"  />
+                        <button type="submit" th:id = "|showPw{iterList.index}|" th:onClick="'javascript:showPassword('+${iterList.index}+')'">Show Password</button>
                     </form>
                 </td>
             </tr>
