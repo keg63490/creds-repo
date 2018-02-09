@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.mail.internet.AddressException;
+
 @Controller
 //@RequestMapping(path="/api")
 public class CredentialController {
@@ -37,8 +39,12 @@ public class CredentialController {
         cred.setCreateTimeStamp(credential.getCreateTimeStamp());
         credentialRepository.save(cred);
         //mailer.setMailSender(mailSender);
-
-        mailer.sendMail("keg63490@ucmo.edu", "Entry added", "Check the list");
+        try {
+            mailer.sendMail("email address here", "Entry added", "Hello from our app! An entry was added to the list!");
+        }
+        catch (Exception e){
+            System.out.println("Enter a valid email address");
+        }
 
         return  "redirect:list";
     }

@@ -12,10 +12,10 @@ public class MailerBean {
     @Bean
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.live.com");
+        mailSender.setHost("smtp-mail.outlook.com");
         mailSender.setPort(587);
 
-        mailSender.setUsername("ucmoseniorproject@gmail.com");
+        mailSender.setUsername("ucmoseniorproject@outlook.com");
         mailSender.setPassword("GoMules123");
 
         Properties props = mailSender.getJavaMailProperties();
