@@ -1,25 +1,32 @@
 package com.example.credsrepo;
 
-import com.example.credsrepo.CredentialsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+import javax.mail.internet.AddressException;
 
 @Controller
 //@RequestMapping(path="/api")
 public class CredentialController {
+    @Autowired
+    private Mailer mailer;
 
     @Autowired
     private CredentialsRepository credentialRepository;
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
-    String index() { return "home"; }
+    String index() { return "list"; }
 
+    @RequestMapping(path = "/add", method = RequestMethod.GET)
+    public String addCredential(Credential credential) {
+        return  "newEntry";
+    }
 
     @RequestMapping(path = "/add", method = RequestMethod.POST)
     public String addCredential(@ModelAttribute("credential") Credential credential, BindingResult bindingResult) {
@@ -31,6 +38,14 @@ public class CredentialController {
         cred.setCreateUser(credential.getCreateUser());
         cred.setCreateTimeStamp(credential.getCreateTimeStamp());
         credentialRepository.save(cred);
+        //mailer.setMailSender(mailSender);
+        try {
+            mailer.sendMail("email address here", "Entry added", "Hello from our app! An entry was added to the list!");
+        }
+        catch (Exception e){
+            System.out.println("Enter a valid email address");
+        }
+
         return  "redirect:list";
     }
 
@@ -54,9 +69,8 @@ public class CredentialController {
         return "redirect:list";
     }
 
-    @RequestMapping(path = "/add", method = RequestMethod.GET)
-    public String addCredential(Credential credential) {
-        return  "newEntry";
-    }
+
+
+
 }
 
