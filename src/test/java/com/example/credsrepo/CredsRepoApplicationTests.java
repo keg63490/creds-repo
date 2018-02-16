@@ -13,4 +13,9 @@ public class CredsRepoApplicationTests {
 	public void contextLoads() {
 	}
 
+	@Test
+	public void testCase1() {
+		assert(1==1);
+	}
+
 }
