@@ -8,7 +8,7 @@
     <form method="post" action = "#" th:action="@{/update}" th:object = "${credential}">
         <p th:each = "credential : ${cred}">
             <input type = "hidden" th:field = "*{id}" th:attr = "value  = ${credential.id}"  th:name= "id" />
-            
+
         </p>
         <p>
             Group: <input type = "text" th:field = "*{group}"/>

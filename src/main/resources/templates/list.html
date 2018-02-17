@@ -57,8 +57,8 @@
                 <td th:text  = "${credential.id}"></td>
                 <td th:text  = "${credential.group}"></td>
                 <td th:text  = "${credential.account}"></td>
-                <td><input type = "password" th:value  = "${credential.password}" th:id = "|pw${iterList.index}|" /></td>
-                <td><input type = "password" th:value  = "${credential.salt}" /></td>
+                <td th:text  = "${credential.password}"></td><!--<td><input type = "te" th:value  = "${credential.password}" th:id = "|pw${iterList.index}|" /></td>-->
+                <td th:text  = "${credential.salt}"></td><!--<td><input type = "password" th:value  = "${credential.salt}" /></td>-->
                 <td th:text  = "${credential.createUser}"></td>
                 <td th:text  = "${credential.createTimeStamp}"></td>
                 <td>
@@ -73,18 +73,18 @@
                         <button type="submit">Delete</button>
                     </form>
                 </td>
-                <td>
-                    <form>
-                        <input type="hidden" th:value = "${iterList.index}" th:name = "id"  />
-                        <button type="submit" th:id = "|button${iterList.index}|" onClick="findPassword(this)">Get This Password</button>
-                    </form>
-                </td>
-                <td>
-                    <form>
-                        <input type="hidden" th:value = "${iterList.index}" th:name = "id"  />
-                        <button type="submit" th:id = "|showPw{iterList.index}|" th:onClick="'javascript:showPassword('+${iterList.index}+')'">Show Password</button>
-                    </form>
-                </td>
+                <!--<td>-->
+                    <!--<form>-->
+                        <!--<input type="hidden" th:value = "${iterList.index}" th:name = "id"  />-->
+                        <!--<button type="submit" th:id = "|button${iterList.index}|" onClick="findPassword(this)">Get This Password</button>-->
+                    <!--</form>-->
+                <!--</td>-->
+                <!--<td>-->
+                    <!--<form>-->
+                        <!--<input type="hidden" th:value = "${iterList.index}" th:name = "id"  />-->
+                        <!--<button type="submit" th:id = "|showPw{iterList.index}|" th:onClick="'javascript:showPassword('+${iterList.index}+')'">Show Password</button>-->
+                    <!--</form>-->
+                <!--</td>-->
             </tr>
         </tbody>
     </table>

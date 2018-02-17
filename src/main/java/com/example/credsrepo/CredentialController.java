@@ -18,9 +18,17 @@ public class CredentialController {
     @Autowired
     private CredentialsRepository credentialRepository;
 
+    // "default" view. Lists the entries in the db
+    @RequestMapping(path="/list", method = RequestMethod.GET)
+    public String getAllUsers(Model model) {
+        model.addAttribute("list", credentialRepository.findAll());
+        return "list";
+    }
+
     @RequestMapping(path = "/", method = RequestMethod.GET)
     String index() { return "redirect:list"; }
 
+    // add paths for adding new credential
     @RequestMapping(path = "/add", method = RequestMethod.GET)
     public String addCredential(Credential credential) {
         return  "newEntry";
@@ -47,17 +55,7 @@ public class CredentialController {
         return  "redirect:list";
     }
 
-    @RequestMapping(path="/list", method = RequestMethod.GET)
-    public String getAllUsers(Model model) {
-        model.addAttribute("list", credentialRepository.findAll());
-        return "list";
-    }
-
-    @RequestMapping(path = "/test", method = RequestMethod.GET)
-    public String greeting() {
-        return "Hello";
-    }
-
+    // deletes user
     @RequestMapping(path = "/delete", method = RequestMethod.POST)
     public String deleteCredential(@RequestParam("id") Integer id) {
         if (credentialRepository.exists(id)) {
@@ -67,6 +65,7 @@ public class CredentialController {
         return "redirect:list";
     }
 
+    // update paths
     @RequestMapping(path = "/update", method = RequestMethod.GET)
     public String updateCredential(Model model, @RequestParam("id") Integer id, Credential credential) {
         Credential cred = credentialRepository.findOne(id);
