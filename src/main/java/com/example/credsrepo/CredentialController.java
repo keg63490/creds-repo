@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.mail.internet.AddressException;
-
 @Controller
 //@RequestMapping(path="/api")
 public class CredentialController {
@@ -21,7 +19,7 @@ public class CredentialController {
     private CredentialsRepository credentialRepository;
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
-    String index() { return "list"; }
+    String index() { return "redirect:list"; }
 
     @RequestMapping(path = "/add", method = RequestMethod.GET)
     public String addCredential(Credential credential) {
@@ -67,6 +65,36 @@ public class CredentialController {
 
         }
         return "redirect:list";
+    }
+
+    @RequestMapping(path = "/update", method = RequestMethod.GET)
+    public String updateCredential(Model model, @RequestParam("id") Integer id, Credential credential) {
+        Credential cred = credentialRepository.findOne(id);
+        System.out.println(cred.getId());
+        model.addAttribute("cred", cred);
+        return "update";
+    }
+
+    @RequestMapping(path = "/update", method = RequestMethod.POST)
+    public String updateCredential(@ModelAttribute("credential") Credential credential, BindingResult bindingResult) {
+        System.out.println(credential.getGroup());
+        Credential cred = credentialRepository.findOne(credential.getId());
+        cred.setGroup(credential.getGroup());
+        cred.setAccount(credential.getAccount());
+        cred.setPassword(credential.getPassword());
+        cred.setSalt(credential.getSalt());
+        cred.setCreateUser(credential.getCreateUser());
+        cred.setCreateTimeStamp(credential.getCreateTimeStamp());
+        credentialRepository.save(cred);
+        //mailer.setMailSender(mailSender);
+        try {
+            mailer.sendMail("email address here", "Entry added", "An item in your group was updated!");
+        }
+        catch (Exception e){
+            System.out.println("Enter a valid email address");
+        }
+
+        return  "redirect:list";
     }
 
 

@@ -61,7 +61,12 @@
                 <td><input type = "password" th:value  = "${credential.salt}" /></td>
                 <td th:text  = "${credential.createUser}"></td>
                 <td th:text  = "${credential.createTimeStamp}"></td>
-                <td><button>Update</button></td>
+                <td>
+                    <form action="#" th:action = "@{|/update?id=${credential.id}|}" th.object = "${credential}" method="get">
+                        <input type="hidden" th:value = "${credential.id}" th:name = "id"  />
+                        <button type="submit">Update</button>
+                    </form>
+                </td>
                 <td>
                     <form action="#" th:action = "@{/delete}" th.object = "${credential}" method="post">
                         <input type="hidden" th:value = "${credential.id}" th:name = "id"  />

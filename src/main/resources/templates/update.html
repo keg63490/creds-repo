@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Update</title>
+</head>
+<body>
+    <form method="post" action = "#" th:action="@{/update}" th:object = "${credential}">
+        <p th:each = "credential : ${cred}">
+            <input type = "hidden" th:field = "*{id}" th:attr = "value  = ${credential.id}"  th:name= "id" />
+            
+        </p>
+        <p>
+            Group: <input type = "text" th:field = "*{group}"/>
+        </p>
+        <p>
+            Account: <input type = "text" th:field = "*{account}"/>
+        </p>
+        <p>
+            Password: <input type = "text" th:field = "*{password}"/>
+        </p>
+        <p>
+            Salt: <input type = "text" th:field = "*{salt}"/>
+        </p>
+        <p>
+            Created by: <input type = "text" th:field = "*{createUser}"/>
+        </p>
+        <p>
+            Created time: <input type = "text" th:field = "*{createTimeStamp}"/>
+        </p>
+        <p>
+            <button type="submit">Update</button>
+        </p>
+    </form>
+</body>
+</html>
