@@ -44,8 +44,9 @@ public class CredentialController {
 
     @RequestMapping(path = "/add", method = RequestMethod.POST)
     public String addCredential(@ModelAttribute("credential") Credential credential, BindingResult bindingResult) {
+        Timestamp currentTime = entryModificationTime();
         logger.info("New account {} added to group {} by {} on {}.",
-                credential.getAccount(), credential.getGroup(), credential.getCreateUser(), credential.getCreateTimeStamp());
+                credential.getAccount(), credential.getGroup(), credential.getCreateUser(), currentTime);
 
         Credential cred = new Credential();
         cred.setGroup(credential.getGroup());
@@ -53,7 +54,7 @@ public class CredentialController {
         cred.setPassword(credential.getPassword());
         cred.setSalt(credential.getSalt());
         cred.setCreateUser(credential.getCreateUser());
-        cred.setCreateTimeStamp(credential.getCreateTimeStamp());
+        cred.setCreateTimeStamp(currentTime);
 
         credentialRepository.save(cred);
 
@@ -73,7 +74,7 @@ public class CredentialController {
         if (credentialRepository.exists(id)) {
             Credential cred = credentialRepository.findOne(id);
             logger.info("Account {} in group {} was deleted by {} on {}.",
-                    cred.getAccount(), cred.getGroup(), cred.getCreateUser(), cred.getCreateTimeStamp());
+                    cred.getAccount(), cred.getGroup(), cred.getCreateUser(), entryModificationTime());
             credentialRepository.delete(id);
         }
         return "redirect:list";
@@ -97,11 +98,11 @@ public class CredentialController {
         cred.setPassword(credential.getPassword());
         cred.setSalt(credential.getSalt());
         cred.setCreateUser(credential.getCreateUser());
-        cred.setCreateTimeStamp(credential.getCreateTimeStamp());
+        //cred.setCreateTimeStamp(credential.getCreateTimeStamp()); CHANGE THIS LINE TO REFLECT UPDATE TIME OR JUST REMOVE IT
         credentialRepository.save(cred);
 
         logger.info("Account {} in group {} was updated by {} on {}.",
-                cred.getAccount(), cred.getGroup(), cred.getCreateUser(), cred.getCreateTimeStamp());
+                cred.getAccount(), cred.getGroup(), cred.getCreateUser(), entryModificationTime());
 
         //mailer.setMailSender(mailSender);
         try {
