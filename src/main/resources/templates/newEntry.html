@@ -7,27 +7,24 @@
 <body>
     <form action="#" th:action="@{/add}" th:object = "${credential}" method="post">
         <p>
-            Group (Developer, Administrator, User):<br/><br/>
-            <input type = "text" th:field = "*{group}"/>
+            Group: <input type = "text" th:field = "*{group}"/>
         </p>
         <p>
-            Account: <br/><br/><input type = "text" th:field = "*{account}"/>
+            Account: <input type = "text" th:field = "*{account}"/>
         </p>
         <p>
-            Password:<br/><br/><input type = "text" th:field = "*{password}"/>
+            Password: <input type = "text" th:field = "*{password}"/>
         </p>
         <p>
-            Salt:<br/><br/><input type = "text" th:field = "*{salt}"/>
+            Salt: <input type = "text" th:field = "*{salt}"/>
         </p>
-        <p>
-            Created by:<br/><br/><input type = "text" th:field = "*{createUser}"/>
-        </p>
-        <p>
-            Created time:<br/><br/><input type = "text" th:field = "*{createTimeStamp}"/>
-        </p>
+        <!--<p>-->
+            <!--Created by: <input type = "text" th:field = "*{createUser}"/>-->
+        <!--</p>-->
         <p>
             <button type="submit">Submit</button>
         </p>
+
     </form>
 </body>
 </html>
