@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -28,7 +27,7 @@ public class Credential {
 
     @NotEmpty
     @Column(name = "password", nullable = false)
-    private String password;
+    private byte[] password;
 
     @NotEmpty
     @Column(name = "salt", nullable = false)
@@ -65,11 +64,11 @@ public class Credential {
         this.account = account;
     }
 
-    public String getPassword() {
+    public byte[] getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(byte[] password) {
         this.password = password;
     }
 
