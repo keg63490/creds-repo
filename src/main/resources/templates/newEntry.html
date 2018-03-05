@@ -5,10 +5,19 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
+
     <form action="#" th:action="@{/add}" th:object = "${credential}" method="post">
         <p>
-            Group: <input type = "text" th:field = "*{group}"/>
+            Group:
         </p>
+
+        <select th:field="*{group}">
+            <option th:each = "type : ${credential}"
+                    th:value="ROLE_MANAGERS">Manager</option>
+            <option th:each = "type : ${credential}"
+                    th:value="ROLE_DEVELOPERS">Developer</option>
+        </select>
+
         <p>
             Account: <input type = "text" th:field = "*{account}"/>
         </p>
