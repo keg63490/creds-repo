@@ -1,13 +1,9 @@
 package com.example.credsrepo;
 
-import javax.persistence.Id;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-
 import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.persistence.*;
+import java.sql.Timestamp;
 
 
 @Entity
@@ -38,7 +34,7 @@ public class Credential {
     private String createUser;
 
     @Column(name = "create_timestamp", nullable = false)
-    private Integer createTimeStamp;
+    private Timestamp createTimeStamp;
 
     public Integer getId() {
         return id;
@@ -88,11 +84,11 @@ public class Credential {
         this.createUser = createUser;
     }
 
-    public Integer getCreateTimeStamp() {
+    public Timestamp getCreateTimeStamp() {
         return createTimeStamp;
     }
 
-    public void setCreateTimeStamp(Integer createTimeStamp) {
+    public void setCreateTimeStamp(Timestamp createTimeStamp) {
         this.createTimeStamp = createTimeStamp;
     }
 
