@@ -3,6 +3,7 @@ package com.example.credsrepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.LdapShaPasswordEncoder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -47,12 +48,16 @@ public class CredentialController {
 
     // add paths for adding new credential
     @RequestMapping(path = "/add", method = RequestMethod.GET)
-    public String addCredential(Credential credential) {
+    public String addCredential(Credential credential, Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        List<String> groups = getListOfGroups(auth.getAuthorities().toArray());
+        model.addAttribute("list", groups);
+
         return  "newEntry";
     }
 
     @RequestMapping(path = "/add", method = RequestMethod.POST)
-    public String addCredential(@ModelAttribute("credential") Credential credential, BindingResult bindingResult) {
+    public String addCredential(@ModelAttribute("credential") Credential credential, BindingResult bindingResult, Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Timestamp currentTime = entryModificationTime();
         logger.info("New account {} added to group {} by {} on {}.",
@@ -93,9 +98,12 @@ public class CredentialController {
     // update paths
     @RequestMapping(path = "/update", method = RequestMethod.GET)
     public String updateCredential(Model model, @RequestParam("id") Integer id, Credential credential) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Credential cred = credentialRepository.findOne(id);
         System.out.println(cred.getId());
         model.addAttribute("cred", cred);
+        List<String> groups = getListOfGroups(auth.getAuthorities().toArray());
+        model.addAttribute("list", groups);
         return "update";
     }
 
@@ -110,7 +118,8 @@ public class CredentialController {
         cred.setSalt(credential.getSalt());
         //cred.setCreateUser(credential.getCreateUser());
         //cred.setCreateTimeStamp(credential.getCreateTimeStamp()); CHANGE THIS LINE TO REFLECT UPDATE TIME OR JUST REMOVE IT
-        credentialRepository.save(cred);
+        //if(cred.getGroup().equals())
+            credentialRepository.save(cred);
 
         logger.info("Account {} in group {} was updated by {} on {}.",
                 cred.getAccount(), cred.getGroup(), cred.getCreateUser(), entryModificationTime());
