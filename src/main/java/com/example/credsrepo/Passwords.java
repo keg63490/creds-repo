@@ -7,7 +7,7 @@ import org.springframework.security.crypto.keygen.BytesKeyGenerator;
 import org.springframework.security.crypto.keygen.KeyGenerators;
 
 public class Passwords {
-    final static String secret = "Grant Pinkley";
+    final private static String secret = "Grant Pinkley";
 
     private Passwords() {}
 
