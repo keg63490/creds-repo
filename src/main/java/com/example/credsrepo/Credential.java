@@ -23,7 +23,7 @@ public class Credential {
 
     @NotEmpty
     @Column(name = "password", nullable = false)
-    private byte[] password;
+    private String password;
 
     @NotEmpty
     @Column(name = "salt", nullable = false)
@@ -60,11 +60,11 @@ public class Credential {
         this.account = account;
     }
 
-    public byte[] getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(byte[] password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 

@@ -69,9 +69,8 @@ public class CredentialController {
         }catch (Exception e){
             System.out.println("Problem with making a password.");
         }
-        cred.setCreateUser(credential.getCreateUser());
-        cred.setCreateTimeStamp(credential.getCreateTimeStamp());
-
+        cred.setCreateUser(auth.getName());
+        cred.setCreateTimeStamp(currentTime);
         credentialRepository.save(cred);
 
         try {
