@@ -111,8 +111,10 @@ public class CredentialController {
         Credential cred = credentialRepository.findOne(credential.getId());
         cred.setGroup(credential.getGroup());
         cred.setAccount(credential.getAccount());
-        cred.setPassword(credential.getPassword());
-        cred.setSalt(credential.getSalt());
+        //cred.setPassword(credential.getPassword());
+        //cred.setSalt(credential.getSalt());
+        cred.setSalt(Passwords.genNextSalt());
+        cred.setPassword(Passwords.encrypt(credential.getPassword(), cred.getSalt()));
         //cred.setCreateUser(credential.getCreateUser());
         //cred.setCreateTimeStamp(credential.getCreateTimeStamp()); CHANGE THIS LINE TO REFLECT UPDATE TIME OR JUST REMOVE IT
         credentialRepository.save(cred);
