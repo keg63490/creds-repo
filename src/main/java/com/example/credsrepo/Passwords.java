@@ -22,11 +22,11 @@ public class Passwords {
     //encrypt
     public static String encrypt(String textToEncrypt, String passSalt) {
         //Encrypt
-        System.out.println("Original text: \"" + textToEncrypt + "\"");
+        //System.out.println("Original text: \"" + textToEncrypt + "\"");
         BytesEncryptor encryptor = Encryptors.standard(secret, passSalt);
         byte[] encryptedText = encryptor.encrypt(textToEncrypt.getBytes());
         String encryptedText1 = new String(Hex.encode(encryptedText));
-        System.out.println("Encrypted text: \"" + encryptedText1 + "\"");
+        //System.out.println("Encrypted text: \"" + encryptedText1 + "\"");
         return encryptedText1;
     }
 
