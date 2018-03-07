@@ -20,20 +20,21 @@ public class Passwords {
     }
 
     //encrypt
-    public static byte[] encrypt(byte[] textToEncrypt, String passSalt) {
+    public static String encrypt(String textToEncrypt, String passSalt) {
         //Encrypt
         //System.out.println("Original text: \"" + textToEncrypt + "\"");
         BytesEncryptor encryptor = Encryptors.standard(secret, passSalt);
-        byte[] encryptedText = encryptor.encrypt(textToEncrypt);  //.getBytes()
-        //String encryptedText1 = new String(Hex.encode(encryptedText));
+        byte[] encryptedText = encryptor.encrypt(textToEncrypt.getBytes());
+        String encryptedText1 = new String(Hex.encode(encryptedText));
         //System.out.println("Encrypted text: \"" + encryptedText1 + "\"");
-        return encryptedText;
+        return encryptedText1;
     }
 
     //decrypt
-    public static String decrypt(byte[] encryptedText, String passSalt) {
+    public static String decrypt(String encryptedText, String passSalt) {
         BytesEncryptor decryptor = Encryptors.standard(secret, passSalt);
-        byte[] decryptedText = decryptor.decrypt(encryptedText);
+        encryptedText = new String(Hex.decode(encryptedText));
+        byte[] decryptedText = decryptor.decrypt(encryptedText.getBytes());
         String decryptedText2 = new String(Hex.encode(decryptedText));
         String decryptedText3 = new String(Hex.decode(decryptedText2));
         //System.out.println("Decrypted text: \"" + decryptedText3 + "\"");
