@@ -26,29 +26,33 @@ public class CredentialController {
 
     private static final Logger logger = LoggerFactory.getLogger(CredentialController.class);
 
-    // "default" view. Lists the entries in the db
+    // "default" view. Lists the entries in the db by querying the DB based on logged in user's group
+    // param:
+    //      Model model - passes the query result to the view
     @RequestMapping(path="/list", method = RequestMethod.GET)
     public String getAllUsers(Model model) {
-        // System.out.println(getListOfGroups(SecurityContextHolder.getContext().getAuthentication().getAuthorities().toArray()));
         model.addAttribute("list", credentialRepository.findByGroups(getListOfGroups(SecurityContextHolder.getContext().getAuthentication().getAuthorities().toArray())));
 
         return "list";
     }
 
-    // redirects back to the list view
+    // if no path defined by user, will display the list by routing back to "/list" path
     @RequestMapping(path = "/", method = RequestMethod.GET)
     String index() { return "redirect:list"; }
 
-    // add paths for adding new credential
+    /**************************** ADD ROUTE *****************************************/
+    // displays a form to add a new credential
     @RequestMapping(path = "/add", method = RequestMethod.GET)
-    public String addCredential(Credential credential, Model model) {
+    public String addCredential(Model model) {
         model.addAttribute("list", getListOfGroups(SecurityContextHolder.getContext().getAuthentication().getAuthorities().toArray()));
         return  "newEntry";
     }
 
+    // posts the new credentital to the database
+    // params:
+    //      credential -  credential object being passed from view to method
     @RequestMapping(path = "/add", method = RequestMethod.POST)
-    public String addCredential(@ModelAttribute("credential") Credential credential, BindingResult bindingResult, Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    public String addCredential(@ModelAttribute("credential") Credential credential) {
         Timestamp currentTime = entryModificationTime();
         logger.info("New account {} added to group {} by {} on {}.",
                 credential.getAccount(), credential.getGroup(), credential.getCreateUser(), currentTime);
@@ -66,7 +70,10 @@ public class CredentialController {
         return  "redirect:list";
     }
 
+    /**************************** DELETE ROUTE *****************************************/
     // deletes user
+    // params:
+    //      id -  id of db entry from view. refers to id of row in db
     @RequestMapping(path = "/delete", method = RequestMethod.POST)
     public String deleteCredential(@RequestParam("id") Integer id) {
         if (credentialRepository.exists(id)) {
@@ -78,17 +85,24 @@ public class CredentialController {
         return "redirect:list";
     }
 
-    // update paths
+    /**************************** UPDATE ROUTE *****************************************/
+    // display form to allow user to update entry based on id
+    // params:
+    //      model - passes credential model object and groups of authenticated user to the update page
+    //      id - id of db row to be updated
     @RequestMapping(path = "/update", method = RequestMethod.GET)
-    public String updateCredential(Model model, @RequestParam("id") Integer id, Credential credential) {
+    public String updateCredential(Model model, @RequestParam("id") Integer id) {
         Credential cred = credentialRepository.findOne(id);
         model.addAttribute("cred", cred);
         model.addAttribute("list", getListOfGroups(SecurityContextHolder.getContext().getAuthentication().getAuthorities().toArray()));
         return "update";
     }
 
+    // posts the updated query to the db
+    // params:
+    //      credential -  holds information from update form to update db with
     @RequestMapping(path = "/update", method = RequestMethod.POST)
-    public String updateCredential(@ModelAttribute("credential") Credential credential, BindingResult bindingResult) {
+    public String updateCredential(@ModelAttribute("credential") Credential credential) {
         System.out.println(credential.getGroup());
         Credential cred = credentialRepository.findOne(credential.getId());
         cred.setGroup(credential.getGroup());
@@ -103,6 +117,10 @@ public class CredentialController {
         return  "redirect:list";
     }
 
+
+
+    /**************************** UTILITY FUNCTIONS *****************************************/
+    // get the Java datetimestamp, translate it to SQL compliant datetimestamp, and return  that datetimesamp
     Timestamp entryModificationTime () {
         Date utilDate = new Date();
         Calendar cal = Calendar.getInstance();
@@ -112,6 +130,7 @@ public class CredentialController {
         return new Timestamp((cal.getTimeInMillis()));
     }
 
+    // translates the groups of the authenticated user into an list of strings for UI display
     List<String> getListOfGroups(Object[] groups) {
         List<String> returnList = new ArrayList<>();
 
@@ -125,9 +144,5 @@ public class CredentialController {
 
         return returnList;
     }
-
-
-
-
 }
 
