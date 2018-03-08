@@ -3,7 +3,6 @@ package com.example.credsrepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.encoding.LdapShaPasswordEncoder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -21,13 +20,11 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
-//@RequestMapping(path="/api")
 public class CredentialController {
     @Autowired
-    private Mailer mailer;
-
-    @Autowired
     private CredentialsRepository credentialRepository;
+
+
 
     private static final Logger logger = LoggerFactory.getLogger(CredentialController.class);
 
@@ -43,6 +40,7 @@ public class CredentialController {
         return "list";
     }
 
+    // redirects back to the list view
     @RequestMapping(path = "/", method = RequestMethod.GET)
     String index() { return "redirect:list"; }
 
@@ -72,13 +70,6 @@ public class CredentialController {
         cred.setCreateTimeStamp(currentTime);
 
         credentialRepository.save(cred);
-
-        try {
-            mailer.sendMail("email address here", "Entry added", "Hello from our app! An entry was added to the list!");
-        }
-        catch (Exception e){
-            System.out.println("Enter a valid email address");
-        }
 
         return  "redirect:list";
     }
@@ -116,21 +107,10 @@ public class CredentialController {
         cred.setAccount(credential.getAccount());
         cred.setPassword(credential.getPassword());
         cred.setSalt(credential.getSalt());
-        //cred.setCreateUser(credential.getCreateUser());
-        //cred.setCreateTimeStamp(credential.getCreateTimeStamp()); CHANGE THIS LINE TO REFLECT UPDATE TIME OR JUST REMOVE IT
-        //if(cred.getGroup().equals())
-            credentialRepository.save(cred);
+        credentialRepository.save(cred);
 
         logger.info("Account {} in group {} was updated by {} on {}.",
                 cred.getAccount(), cred.getGroup(), cred.getCreateUser(), entryModificationTime());
-
-        //mailer.setMailSender(mailSender);
-        try {
-            mailer.sendMail("email address here", "Entry added", "An item in your group was updated!");
-        }
-        catch (Exception e){
-            System.out.println("Enter a valid email address");
-        }
 
         return  "redirect:list";
     }
@@ -148,7 +128,11 @@ public class CredentialController {
         List<String> returnList = new ArrayList<>();
 
         for (int i = 0; i < groups.length; i++) {
-            returnList.add(groups[i].toString());
+            String group = groups[i].toString();
+            if (group.startsWith("ROLE_")) {
+                group = group.substring(5);
+            }
+            returnList.add(group);
         }
 
         return returnList;
