@@ -24,18 +24,13 @@ public class CredentialController {
     @Autowired
     private CredentialsRepository credentialRepository;
 
-
-
     private static final Logger logger = LoggerFactory.getLogger(CredentialController.class);
 
     // "default" view. Lists the entries in the db
     @RequestMapping(path="/list", method = RequestMethod.GET)
     public String getAllUsers(Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        List<String> groups = getListOfGroups(auth.getAuthorities().toArray());
-        System.out.println(groups);
-
-        model.addAttribute("list", credentialRepository.findByGroups(groups));
+        // System.out.println(getListOfGroups(SecurityContextHolder.getContext().getAuthentication().getAuthorities().toArray()));
+        model.addAttribute("list", credentialRepository.findByGroups(getListOfGroups(SecurityContextHolder.getContext().getAuthentication().getAuthorities().toArray())));
 
         return "list";
     }
@@ -47,10 +42,7 @@ public class CredentialController {
     // add paths for adding new credential
     @RequestMapping(path = "/add", method = RequestMethod.GET)
     public String addCredential(Credential credential, Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        List<String> groups = getListOfGroups(auth.getAuthorities().toArray());
-        model.addAttribute("list", groups);
-
+        model.addAttribute("list", getListOfGroups(SecurityContextHolder.getContext().getAuthentication().getAuthorities().toArray()));
         return  "newEntry";
     }
 
@@ -66,7 +58,7 @@ public class CredentialController {
         cred.setAccount(credential.getAccount());
         cred.setPassword(credential.getPassword());
         cred.setSalt(credential.getSalt());
-        cred.setCreateUser(auth.getName());
+        cred.setCreateUser(SecurityContextHolder.getContext().getAuthentication().getName());
         cred.setCreateTimeStamp(currentTime);
 
         credentialRepository.save(cred);
@@ -89,18 +81,14 @@ public class CredentialController {
     // update paths
     @RequestMapping(path = "/update", method = RequestMethod.GET)
     public String updateCredential(Model model, @RequestParam("id") Integer id, Credential credential) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Credential cred = credentialRepository.findOne(id);
-        System.out.println(cred.getId());
         model.addAttribute("cred", cred);
-        List<String> groups = getListOfGroups(auth.getAuthorities().toArray());
-        model.addAttribute("list", groups);
+        model.addAttribute("list", getListOfGroups(SecurityContextHolder.getContext().getAuthentication().getAuthorities().toArray()));
         return "update";
     }
 
     @RequestMapping(path = "/update", method = RequestMethod.POST)
     public String updateCredential(@ModelAttribute("credential") Credential credential, BindingResult bindingResult) {
-
         System.out.println(credential.getGroup());
         Credential cred = credentialRepository.findOne(credential.getId());
         cred.setGroup(credential.getGroup());
@@ -137,6 +125,8 @@ public class CredentialController {
 
         return returnList;
     }
+
+
 
 
 }
