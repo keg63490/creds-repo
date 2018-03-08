@@ -3,11 +3,9 @@ package com.example.credsrepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -121,7 +119,7 @@ public class CredentialController {
 
     /**************************** UTILITY FUNCTIONS *****************************************/
     // get the Java datetimestamp, translate it to SQL compliant datetimestamp, and return  that datetimesamp
-    Timestamp entryModificationTime () {
+    private Timestamp entryModificationTime () {
         Date utilDate = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(utilDate);
@@ -131,7 +129,7 @@ public class CredentialController {
     }
 
     // translates the groups of the authenticated user into an list of strings for UI display
-    List<String> getListOfGroups(Object[] groups) {
+    private List<String> getListOfGroups(Object[] groups) {
         List<String> returnList = new ArrayList<>();
 
         for (int i = 0; i < groups.length; i++) {
