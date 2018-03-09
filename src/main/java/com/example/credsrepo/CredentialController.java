@@ -41,7 +41,7 @@ public class CredentialController {
     /**************************** ADD ROUTE *****************************************/
     // displays a form to add a new credential
     @RequestMapping(path = "/add", method = RequestMethod.GET)
-    public String addCredential(Model model) {
+    public String addCredential(@ModelAttribute("credential") Credential credential, Model model) {
         model.addAttribute("list", getListOfGroups(SecurityContextHolder.getContext().getAuthentication().getAuthorities().toArray()));
         return  "newEntry";
     }
@@ -89,7 +89,7 @@ public class CredentialController {
     //      model - passes credential model object and groups of authenticated user to the update page
     //      id - id of db row to be updated
     @RequestMapping(path = "/update", method = RequestMethod.GET)
-    public String updateCredential(Model model, @RequestParam("id") Integer id) {
+    public String updateCredential(@ModelAttribute("credential") Credential credential, Model model, @RequestParam("id") Integer id) {
         Credential cred = credentialRepository.findOne(id);
         model.addAttribute("cred", cred);
         model.addAttribute("list", getListOfGroups(SecurityContextHolder.getContext().getAuthentication().getAuthorities().toArray()));
