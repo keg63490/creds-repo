@@ -58,14 +58,8 @@ public class CredentialController {
         Credential cred = new Credential();
         cred.setGroup(credential.getGroup());
         cred.setAccount(credential.getAccount());
-        //cred.setPassword(credential.getPassword());
-        //cred.setSalt(credential.getSalt());
-        try {
-            cred.setSalt(Passwords.genNextSalt());
-            cred.setPassword(Passwords.encrypt(credential.getPassword(), cred.getSalt()));
-        }catch (Exception e){
-            System.out.println("Problem with making a password.");
-        }
+        cred.setSalt(Passwords.genNextSalt());
+        cred.setPassword(Passwords.encrypt(credential.getPassword(), cred.getSalt()));
         cred.setCreateUser(SecurityContextHolder.getContext().getAuthentication().getName());
         cred.setCreateTimeStamp(currentTime);
         credentialRepository.save(cred);
@@ -110,8 +104,6 @@ public class CredentialController {
         Credential cred = credentialRepository.findOne(credential.getId());
         cred.setGroup(credential.getGroup());
         cred.setAccount(credential.getAccount());
-        //cred.setPassword(credential.getPassword());
-        //cred.setSalt(credential.getSalt());
         cred.setSalt(Passwords.genNextSalt());
         cred.setPassword(Passwords.encrypt(credential.getPassword(), cred.getSalt()));
         //cred.setCreateUser(credential.getCreateUser());
