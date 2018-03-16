@@ -73,6 +73,12 @@
                         <button type="submit">Delete</button>
                     </form>
                 </td>
+                <td>
+                    <form action="#" th:action = "@{/decrypt}" th.object = "${credential}" method="post">
+                        <input type="hidden" th:value = "${credential.id}" th:name = "id"  />
+                        <button type="submit">Show Password</button>
+                    </form>
+                </td>
                 <!--<td>-->
                     <!--<form>-->
                         <!--<input type="hidden" th:value = "${iterList.index}" th:name = "id"  />-->

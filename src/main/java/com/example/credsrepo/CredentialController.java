@@ -59,7 +59,14 @@ public class CredentialController {
         cred.setGroup(credential.getGroup());
         cred.setAccount(credential.getAccount());
         cred.setSalt(Passwords.genNextSalt());
-        cred.setPassword(Passwords.encrypt(credential.getPassword(), cred.getSalt()));
+        //Add confirm password field
+        if (!(credential.getPassword().equals(""))) {
+            cred.setPassword(Passwords.encrypt(credential.getPassword(), cred.getSalt()));
+        }
+        else{
+            //map to error 
+            System.out.println("Password is empty please enter a password!");
+        }
         cred.setCreateUser(SecurityContextHolder.getContext().getAuthentication().getName());
         cred.setCreateTimeStamp(currentTime);
         credentialRepository.save(cred);
@@ -114,6 +121,19 @@ public class CredentialController {
                 cred.getAccount(), cred.getGroup(), cred.getCreateUser(), entryModificationTime());
 
         return  "redirect:list";
+    }
+
+    /**************************** DECRYPT ROUTE *****************************************/
+    // decrypts id password
+    // params:
+    //      id -  id of db entry from view. refers to id of row in db
+    @RequestMapping(path = "/decrypt", method = RequestMethod.POST)
+    public String decryptCredential(@RequestParam("id") Integer id) {
+        if (credentialRepository.exists(id)) {
+            Credential cred = credentialRepository.findOne(id);
+            System.out.println(Passwords.decrypt(cred.getPassword(), cred.getSalt()));
+        }
+        return "redirect:list";
     }
 
 
