@@ -6,11 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -127,13 +125,14 @@ public class CredentialController {
     // decrypts id password
     // params:
     //      id -  id of db entry from view. refers to id of row in db
-    @RequestMapping(path = "/decrypt", method = RequestMethod.POST)
-    public String decryptCredential(@RequestParam("id") Integer id) {
-        if (credentialRepository.exists(id)) {
-            Credential cred = credentialRepository.findOne(id);
-            System.out.println(Passwords.decrypt(cred.getPassword(), cred.getSalt()));
-        }
-        return "redirect:list";
+    @RequestMapping(value = "/decrypt", method = RequestMethod.POST )
+    public @ResponseBody String decryptCredential(@RequestBody String id, HttpServletRequest request) {
+        net.sf.json.JSONObject jsonObject = net.sf.json.JSONObject.fromObject(id);
+        Integer credentialID = Integer.parseInt(jsonObject.get("id").toString());
+        Credential cred = credentialRepository.findOne(credentialID);
+        String decryptPassword = Passwords.decrypt(cred.getPassword(), cred.getSalt());
+
+        return ("{\"pw\":\"" + decryptPassword + "\"}");
     }
 
 
@@ -163,5 +162,12 @@ public class CredentialController {
 
         return returnList;
     }
+
+    static public class Id {
+        private String id;
+        public Integer getId() { return Integer.parseInt(id); }
+        public void setId(String id) { this.id = id; }
+    }
+
 }
 

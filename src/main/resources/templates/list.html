@@ -3,41 +3,17 @@
 <head>
     <title>List of Users</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <script>
-        function findPassword(buttonPressed) {
-            var parentElementToRow = document.getElementById("tableRowsParent");
-            var rowNumber = buttonPressed.parentNode.children[0].value;
-            var password = document.getElementById("pw" + rowNumber).value;
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <!-- default header name is X-CSRF-TOKEN -->
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <!-- ... -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--<script type = "text/javascript">-->
 
-            var textArea = document.createElement("textarea");
-            textArea.style.position = 'fixed';
-            textArea.style.top = 0;
-            textArea.style.left = 0;
-            textArea.style.width = '2em';
-            textArea.style.height = '2em';
-            textArea.style.padding = 0;
-            textArea.style.border = 'none';
-            textArea.style.outline = 'none';
-            textArea.style.boxShadow = 'none';
-            textArea.style.background = 'transparent';
-            textArea.value = password;
-            document.body.appendChild(textArea);
-            textArea.select();
+    <!--</script>-->
 
-            document.execCommand("copy");
-        }
+    <script type = "text/javascript" src="/scripts.js"></script>
 
-        function showPassword(pwRowNum) {
-            var pwID = "pw" + pwRowNum;
-            var elementPW = document.getElementById(pwID);
-            elementPW.setAttribute("type", "text");
-            window.setTimeout(function () {alert("Waiting")},30000)
-        }
-
-
-
-
-    </script>
 </head>
 <body>
     <table>
@@ -54,10 +30,10 @@
         </thead>
         <tbody id = "tableRowsParent">
             <tr th:each = "credential, iterList : ${list}">
-                <td th:text  = "${credential.id}"></td>
+                <td th:text  = "${credential.id}" th:id = "|id${iterList.index}|"></td>
                 <td th:text  = "${credential.group}"></td>
                 <td th:text  = "${credential.account}"></td>
-                <td th:text  = "${credential.password}"></td><!--<td><input type = "te" th:value  = "${credential.password}" th:id = "|pw${iterList.index}|" /></td>-->
+                <td th:id = "|pw${credential.id}|">**********</td><!--<td><input type = "te" th:value  = "${credential.password}" th:id = "|pw${iterList.index}|" /></td>-->
                <!-- <td th:text  = "${credential.salt}"></td>--><!--<td><input type = "password" th:value  = "${credential.salt}" /></td>-->
                 <td th:text  = "${credential.createUser}"></td>
                 <td th:text  = "${credential.createTimeStamp}"></td>
@@ -73,11 +49,12 @@
                         <button type="submit">Delete</button>
                     </form>
                 </td>
-                <td>
-                    <form action="#" th:action = "@{/decrypt}" th.object = "${credential}" method="post">
+                <td th.object = "${credential}">
+                    <!--<form action="#" th:action = "@{/decrypt}" th.object = "${credential}" method="post">-->
                         <input type="hidden" th:value = "${credential.id}" th:name = "id"  />
-                        <button type="submit">Show Password</button>
-                    </form>
+                        <input type="hidden" id= "csrf-token" th:name="${_csrf.parameterName}" th:content="${_csrf.token}" />
+                        <button type="submit" onclick="findPassword(this)">Show Password</button>
+                    <!--</form>-->
                 </td>
                 <!--<td>-->
                     <!--<form>-->
