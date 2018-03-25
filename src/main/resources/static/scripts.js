@@ -12,9 +12,9 @@ function findPassword(buttonPressed) {
         data : JSON.stringify({"id" : idNum}),
         dataType : "json",
         success : function (data) {
-
             clearPasswords();
             document.getElementById("pw" + idNum).innerHTML = data['pw'];
+            setTimeout(clearPasswords, 3000);
         }
     });
 }
