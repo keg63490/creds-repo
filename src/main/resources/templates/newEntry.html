@@ -13,26 +13,15 @@
             Group:
         </p>
 
-        <!--<select th:field="*{group}">
-            <option th:each = "type : ${credential}"
-                    th:value="ROLE_MANAGERS">Manager</option>
-            <option th:each = "type : ${credential}"
-                    th:value="ROLE_DEVELOPERS">Developer</option>
-        </select>-->
-
-
-        <!--<select th:field="*{credential.group}">
-            <option th:each = "credential.group : ${list}"
-                    th:value = "${credential.group}"
-                    th:text  = "${credential.group}">Wireframe</option>
-        </select>-->
-
         <select th:field="*{group}">
             <option th:each="credential : ${list}" th:value="${credential}" th:text="${credential}"></option>
         </select>
 
         <p>
             Account: <input type = "text" th:field = "*{account}"/>
+        </p>
+        <p>
+            Username: <input type = "text" th:field = "*{username}"/>
         </p>
         <p>
             Password: <input type = "text" th:field = "*{password}"/>

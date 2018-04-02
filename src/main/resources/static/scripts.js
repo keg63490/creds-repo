@@ -25,6 +25,6 @@ function clearPasswords() {
     //console.log(rowCount);
 
     for (var i = 0; i < rowCount; i++){
-        parent.children[i].children[3].innerHTML = "**********";
+        parent.children[i].children[4].innerHTML = "**********";
     }
 }

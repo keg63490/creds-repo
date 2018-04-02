@@ -22,6 +22,10 @@ public class Credential {
     private String account;
 
     @NotEmpty
+    @Column(name = "username", nullable = false)
+    private String username;
+
+    @NotEmpty
     @Column(name = "password", nullable = false)
     private byte[] password;
 
@@ -60,6 +64,14 @@ public class Credential {
         this.account = account;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public byte[] getPassword() {
         return password;
     }
@@ -91,6 +103,4 @@ public class Credential {
     public void setCreateTimeStamp(Timestamp createTimeStamp) {
         this.createTimeStamp = createTimeStamp;
     }
-
-
 }
