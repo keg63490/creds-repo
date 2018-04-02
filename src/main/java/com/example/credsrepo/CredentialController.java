@@ -56,6 +56,7 @@ public class CredentialController {
         Credential cred = new Credential();
         cred.setGroup(credential.getGroup());
         cred.setAccount(credential.getAccount());
+        cred.setUsername(credential.getUsername());
         cred.setSalt(Passwords.genNextSalt());
         //Add confirm password field
         if (!(credential.getPassword().equals(""))) {
@@ -109,6 +110,7 @@ public class CredentialController {
         Credential cred = credentialRepository.findOne(credential.getId());
         cred.setGroup(credential.getGroup());
         cred.setAccount(credential.getAccount());
+        cred.setUsername(credential.getUsername());
         cred.setSalt(Passwords.genNextSalt());
         cred.setPassword(Passwords.encrypt(credential.getPassword(), cred.getSalt()));
         //cred.setCreateUser(credential.getCreateUser());

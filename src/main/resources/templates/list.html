@@ -22,6 +22,7 @@
                 <th>ID</th>
                 <th>User Group</th>
                 <th>Account</th>
+                <th>Username</th>
                 <th>Password</th>
                 <!--<th>Salt</th>-->
                 <th>Created by</th>
@@ -33,6 +34,7 @@
                 <td th:text  = "${credential.id}" th:id = "|id${iterList.index}|"></td>
                 <td th:text  = "${credential.group}"></td>
                 <td th:text  = "${credential.account}"></td>
+                <td th:text  = "${credential.username}"></td>
                 <td th:id = "|pw${credential.id}|">**********</td><!--<td><input type = "te" th:value  = "${credential.password}" th:id = "|pw${iterList.index}|" /></td>-->
                <!-- <td th:text  = "${credential.salt}"></td>--><!--<td><input type = "password" th:value  = "${credential.salt}" /></td>-->
                 <td th:text  = "${credential.createUser}"></td>
