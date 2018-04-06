@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -128,7 +127,7 @@ public class CredentialController {
     // params:
     //      id -  id of db entry from view. refers to id of row in db
     @RequestMapping(value = "/decrypt", method = RequestMethod.POST )
-    public @ResponseBody String decryptCredential(@RequestBody String id, HttpServletRequest request) {
+    public @ResponseBody String decryptCredential(@RequestBody String id) {
         net.sf.json.JSONObject jsonObject = net.sf.json.JSONObject.fromObject(id);
         Integer credentialID = Integer.parseInt(jsonObject.get("id").toString());
         Credential cred = credentialRepository.findOne(credentialID);
